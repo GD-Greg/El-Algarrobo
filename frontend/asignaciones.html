@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Asignaciones de trabajo | El Algarrobo
+    </title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/navegacion.js" defer></script>
+    <script src="js/asignaciones.js" defer></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>El Algarrobo</h1>
+                <p>Panel de gestión</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a
+                    href="dashboard.html"
+                    class="nav-link"
+                >
+                    Inicio
+                </a>
+
+                <a
+                    href="productos.html"
+                    class="nav-link"
+                >
+                    Muebles
+                </a>
+
+                <a
+                    href="clientes.html"
+                    class="nav-link"
+                    id="enlace-clientes"
+                    hidden
+                >
+                    Clientes
+                </a>
+
+                <a
+                    href="pedidos.html"
+                    class="nav-link"
+                >
+                    Pedidos
+                </a>
+
+                <a
+                    href="empleados.html"
+                    class="nav-link"
+                    id="enlace-empleados"
+                    hidden
+                >
+                    Empleados
+                </a>
+
+                <a
+                    href="asignaciones.html"
+                    class="nav-link active"
+                >
+                    Asignaciones
+                </a>
+
+                <a
+                    href="notas-produccion.html"
+                    class="nav-link"
+                    id="enlace-produccion"
+                    hidden
+                >
+                    Producción
+                </a>
+            </nav>
+
+            <button
+                type="button"
+                id="logout-button"
+            >
+                Cerrar sesión
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="page-header">
+                <div>
+                    <h2>Asignaciones de trabajo</h2>
+
+                    <p>
+                        Organización del trabajo de los
+                        carpinteros
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    id="nueva-asignacion-button"
+                    class="primary-button"
+                    hidden
+                >
+                    Nueva asignación
+                </button>
+            </header>
+
+            <section class="content-card">
+                <form
+                    id="busqueda-asignaciones-form"
+                    class="search-form"
+                >
+                    <div class="form-group">
+                        <label for="buscar-pedido-id">
+                            Número de pedido
+                        </label>
+
+                        <input
+                            type="number"
+                            id="buscar-pedido-id"
+                            min="1"
+                            step="1"
+                            placeholder="Ejemplo: 1"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-carpintero-id">
+                            ID del carpintero
+                        </label>
+
+                        <input
+                            type="number"
+                            id="buscar-carpintero-id"
+                            min="1"
+                            step="1"
+                            placeholder="Ejemplo: 4"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-estado">
+                            Estado
+                        </label>
+
+                        <select id="buscar-estado">
+                            <option value="">
+                                Todos los estados
+                            </option>
+
+                            <option value="asignada">
+                                Asignada
+                            </option>
+
+                            <option value="en_produccion">
+                                En producción
+                            </option>
+
+                            <option value="terminada">
+                                Terminada
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-orden">
+                            Orden por fecha
+                        </label>
+
+                        <select id="buscar-orden">
+                            <option value="desc">
+                                Más recientes
+                            </option>
+
+                            <option value="asc">
+                                Más antiguas
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="search-actions">
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Buscar
+                        </button>
+
+                        <button
+                            type="button"
+                            id="limpiar-busqueda-button"
+                            class="secondary-button"
+                        >
+                            Mostrar todas
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <p
+                id="asignaciones-mensaje"
+                class="page-message"
+            ></p>
+
+            <section
+                class="content-card table-container"
+            >
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>N.º</th>
+                            <th>Pedido</th>
+                            <th>Mueble</th>
+                            <th>Carpintero de armado</th>
+                            <th>Carpintero de labrado</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+
+                            <th
+                                id="acciones-header"
+                                hidden
+                            >
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody
+                        id="asignaciones-table-body"
+                    >
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <section
+        id="asignacion-modal"
+        class="modal"
+        hidden
+    >
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Nueva asignación</h2>
+
+                <button
+                    type="button"
+                    id="cerrar-modal-button"
+                    class="close-button"
+                    aria-label="Cerrar"
+                >
+                    ×
+                </button>
+            </header>
+
+            <form id="asignacion-form">
+                <div class="form-group">
+                    <label for="asignacion-pedido">
+                        Pedido pendiente
+                    </label>
+
+                    <select
+                        id="asignacion-pedido"
+                        required
+                    >
+                        <option value="">
+                            Seleccionar pedido
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="asignacion-renglon">
+                        Mueble del pedido
+                    </label>
+
+                    <select
+                        id="asignacion-renglon"
+                        required
+                        disabled
+                    >
+                        <option value="">
+                            Primero seleccioná un pedido
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="carpintero-armado">
+                        Carpintero de armado
+                    </label>
+
+                    <select
+                        id="carpintero-armado"
+                        required
+                    >
+                        <option value="">
+                            Seleccionar carpintero
+                        </option>
+                    </select>
+                </div>
+
+                <div
+                    class="form-group"
+                    id="grupo-carpintero-labrado"
+                    hidden
+                >
+                    <label for="carpintero-labrado">
+                        Carpintero de labrado
+                    </label>
+
+                    <select id="carpintero-labrado">
+                        <option value="">
+                            Seleccionar carpintero
+                        </option>
+                    </select>
+
+                    <small>
+                        Este mueble requiere trabajo de
+                        labrado.
+                    </small>
+                </div>
+
+                <p
+                    id="asignacion-form-error"
+                    class="mensaje-error"
+                ></p>
+
+                <div class="modal-actions">
+                    <button
+                        type="button"
+                        id="cancelar-asignacion-button"
+                        class="secondary-button"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Crear asignación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

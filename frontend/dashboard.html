@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel principal | El Algarrobo</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/navegacion.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>El Algarrobo</h1>
+                <p>Panel de gestión</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link active">
+                    Inicio
+                </a>
+
+                <a
+                    href="productos.html"
+                    class="nav-link"
+                    id="enlace-productos"
+                    hidden
+                >
+                    Muebles
+                </a>
+
+                <a
+                    href="clientes.html"
+                    class="nav-link"
+                    id="enlace-clientes"
+                    hidden
+                >
+                    Clientes
+                </a>
+
+                <a
+                    href="pedidos.html"
+                    class="nav-link"
+                    id="enlace-pedidos"
+                    hidden
+                >
+                    Pedidos
+                </a>
+
+                <a
+                    href="empleados.html"
+                    class="nav-link"
+                    id="enlace-empleados"
+                    hidden
+                >
+                    Empleados
+                </a>
+
+                <a
+                    href="asignaciones.html"
+                    class="nav-link"
+                    id="enlace-asignaciones"
+                    hidden
+                >
+                    Asignaciones
+                </a>
+
+                <a
+                    href="notas-produccion.html"
+                    class="nav-link"
+                    id="enlace-produccion"
+                    hidden
+                >
+                    Producción
+                </a>
+            </nav>
+
+            <button type="button" id="logout-button">
+                Cerrar sesión
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <h2>Panel principal</h2>
+                    <p>Resumen general de El Algarrobo</p>
+                </div>
+
+                <div class="usuario-info">
+                    <span id="usuario-nombre">Cargando...</span>
+                    <span id="usuario-rol"></span>
+                </div>
+            </header>
+
+            <p id="dashboard-error" class="mensaje-error"></p>
+
+            <section id="admin-dashboard" hidden>
+                <h3>Resumen del sistema</h3>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <span class="stat-title">Usuarios</span>
+                        <strong id="total-usuarios">0</strong>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-title">Muebles</span>
+                        <strong id="total-productos">0</strong>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-title">Pedidos</span>
+                        <strong id="total-pedidos">0</strong>
+                    </article>
+                </div>
+
+                <h3>Estados de los pedidos</h3>
+
+                <div class="stats-grid">
+                    <article class="stat-card pendiente">
+                        <span class="stat-title">Pendientes</span>
+                        <strong id="pedidos-pendientes">0</strong>
+                    </article>
+
+                    <article class="stat-card asignado">
+                        <span class="stat-title">Asignados</span>
+                        <strong id="pedidos-asignados">0</strong>
+                    </article>
+
+                    <article class="stat-card en-produccion">
+                        <span class="stat-title">En producción</span>
+                        <strong id="pedidos-en-produccion">0</strong>
+                    </article>
+
+                    <article class="stat-card terminado">
+                        <span class="stat-title">Terminados</span>
+                        <strong id="pedidos-terminados">0</strong>
+                    </article>
+
+                    <article class="stat-card cliente-avisado">
+                        <span class="stat-title">Clientes avisados</span>
+                        <strong id="pedidos-clientes-avisados">0</strong>
+                    </article>
+
+                    <article class="stat-card retirado">
+                        <span class="stat-title">Retirados</span>
+                        <strong id="pedidos-retirados">0</strong>
+                    </article>
+
+                    <article class="stat-card cancelado">
+                        <span class="stat-title">Cancelados</span>
+                        <strong id="pedidos-cancelados">0</strong>
+                    </article>
+                </div>
+            </section>
+
+            <section id="personal-dashboard" hidden>
+                <div class="welcome-card">
+                    <h3 id="personal-titulo">Área del personal</h3>
+                    <p id="personal-mensaje"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

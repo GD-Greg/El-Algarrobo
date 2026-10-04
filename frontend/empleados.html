@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Empleados | El Algarrobo</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/navegacion.js" defer></script>
+    <script src="js/empleados.js" defer></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>El Algarrobo</h1>
+                <p>Panel de gestión</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    Inicio
+                </a>
+
+                <a href="productos.html" class="nav-link">
+                    Muebles
+                </a>
+
+                <a
+                    href="clientes.html"
+                    class="nav-link"
+                    id="enlace-clientes"
+                    hidden
+                >
+                    Clientes
+                </a>
+
+                <a href="pedidos.html" class="nav-link">
+                    Pedidos
+                </a>
+
+                <a href="empleados.html" class="nav-link active">
+                    Empleados
+                </a>
+
+                <a
+                    href="asignaciones.html"
+                    class="nav-link"
+                    id="enlace-asignaciones"
+                    hidden
+                >
+                    Asignaciones
+                </a>
+
+                <a
+                    href="notas-produccion.html"
+                    class="nav-link"
+                    id="enlace-produccion"
+                    hidden
+                >
+                    Producción
+                </a>
+            </nav>
+
+            <button type="button" id="logout-button">
+                Cerrar sesión
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="page-header">
+                <div>
+                    <h2>Empleados</h2>
+                    <p>Administración del personal de El Algarrobo</p>
+                </div>
+
+                <button
+                    type="button"
+                    id="nuevo-empleado-button"
+                    class="primary-button"
+                    hidden
+                >
+                    Nuevo empleado
+                </button>
+            </header>
+
+            <section class="content-card">
+                <form id="busqueda-empleados-form" class="search-form">
+                    <div class="form-group">
+                        <label for="buscar-codigo">Código</label>
+
+                        <input
+                            type="text"
+                            id="buscar-codigo"
+                            placeholder="Ejemplo: CAR-001"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-nombre">Nombre</label>
+
+                        <input type="text" id="buscar-nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-apellido">Apellido</label>
+
+                        <input type="text" id="buscar-apellido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-puesto">Puesto</label>
+
+                        <select id="buscar-puesto">
+                            <option value="">Todos</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="recepcionista">Recepcionista</option>
+                            <option value="jefe_carpinteros">
+                                Jefe de carpinteros
+                            </option>
+                            <option value="carpintero">Carpintero</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-tipo-carpintero">
+                            Tipo de carpintero
+                        </label>
+
+                        <select id="buscar-tipo-carpintero">
+                            <option value="">Todos</option>
+                            <option value="armado">Armado</option>
+                            <option value="labrado">Labrado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-disponible">Disponibilidad</label>
+
+                        <select id="buscar-disponible">
+                            <option value="">Todos</option>
+                            <option value="true">Disponibles</option>
+                            <option value="false">No disponibles</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-activo">Estado</label>
+
+                        <select id="buscar-activo">
+                            <option value="">Todos</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-orden">Orden por código</label>
+
+                        <select id="buscar-orden">
+                            <option value="asc">A–Z</option>
+                            <option value="desc">Z–A</option>
+                        </select>
+                    </div>
+
+                    <div class="search-actions">
+                        <button type="submit" class="primary-button">
+                            Buscar
+                        </button>
+
+                        <button
+                            type="button"
+                            id="limpiar-busqueda-button"
+                            class="secondary-button"
+                        >
+                            Mostrar todos
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <p id="empleados-mensaje" class="page-message"></p>
+
+            <section class="content-card table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Nombre completo</th>
+                            <th>Correo electrónico</th>
+                            <th>Teléfono</th>
+                            <th>Puesto</th>
+                            <th>Tipo</th>
+                            <th>Especialidad</th>
+                            <th>Disponible</th>
+                            <th>Estado</th>
+
+                            <th id="acciones-header" hidden>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="empleados-table-body">
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <section id="empleado-modal" class="modal" hidden>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="empleado-modal-title">Nuevo empleado</h2>
+
+                <button
+                    type="button"
+                    id="cerrar-modal-button"
+                    class="close-button"
+                    aria-label="Cerrar"
+                >
+                    ×
+                </button>
+            </header>
+
+            <form id="empleado-form">
+                <input type="hidden" id="empleado-id">
+
+                <div class="form-group">
+                    <label for="empleado-codigo">Código</label>
+
+                    <input
+                        type="text"
+                        id="empleado-codigo"
+                        minlength="1"
+                        maxlength="30"
+                        placeholder="Ejemplo: CAR-001"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-nombre">Nombre</label>
+
+                    <input
+                        type="text"
+                        id="empleado-nombre"
+                        minlength="2"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-apellido">Apellido</label>
+
+                    <input
+                        type="text"
+                        id="empleado-apellido"
+                        minlength="2"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-email">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="empleado-email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-telefono">Teléfono</label>
+
+                    <input
+                        type="tel"
+                        id="empleado-telefono"
+                        minlength="7"
+                        maxlength="20"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-puesto">Puesto</label>
+
+                    <select id="empleado-puesto" required>
+                        <option value="" selected disabled>
+                            Seleccionar puesto
+                        </option>
+                        <option value="administrador">Administrador</option>
+                        <option value="recepcionista">Recepcionista</option>
+                        <option value="jefe_carpinteros">
+                            Jefe de carpinteros
+                        </option>
+                        <option value="carpintero">Carpintero</option>
+                    </select>
+                </div>
+
+                <div
+                    class="form-group"
+                    id="grupo-tipo-carpintero"
+                    hidden
+                >
+                    <label for="empleado-tipo-carpintero">
+                        Tipo de carpintero
+                    </label>
+
+                    <select id="empleado-tipo-carpintero">
+                        <option value="">Seleccionar tipo</option>
+                        <option value="armado">Armado</option>
+                        <option value="labrado">Labrado</option>
+                    </select>
+                </div>
+
+                <div
+                    class="form-group"
+                    id="grupo-especialidad-labrado"
+                    hidden
+                >
+                    <label for="empleado-especialidad">
+                        Especialidad de labrado
+                    </label>
+
+                    <input
+                        type="text"
+                        id="empleado-especialidad"
+                        minlength="2"
+                        maxlength="100"
+                        placeholder="Ejemplo: Tallado artesanal"
+                    >
+                </div>
+
+                <div
+                    class="form-group"
+                    id="grupo-disponible"
+                    hidden
+                >
+                    <label for="empleado-disponible">
+                        Disponibilidad
+                    </label>
+
+                    <select id="empleado-disponible">
+                        <option value="true">Disponible</option>
+                        <option value="false">No disponible</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="empleado-activo">Estado</label>
+
+                    <select id="empleado-activo">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+
+                <p id="empleado-form-error" class="mensaje-error"></p>
+
+                <div class="modal-actions">
+                    <button
+                        type="button"
+                        id="cancelar-empleado-button"
+                        class="secondary-button"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="primary-button">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

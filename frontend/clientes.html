@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clientes | El Algarrobo</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/navegacion.js" defer></script>
+    <script src="js/clientes.js" defer></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>El Algarrobo</h1>
+                <p>Panel de gestión</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    Inicio
+                </a>
+
+                <a href="productos.html" class="nav-link">
+                    Muebles
+                </a>
+
+                <a href="clientes.html" class="nav-link active">
+                    Clientes
+                </a>
+
+                <a href="pedidos.html" class="nav-link">
+                    Pedidos
+                </a>
+
+                <a
+                    href="empleados.html"
+                    class="nav-link"
+                    id="enlace-empleados"
+                    hidden
+                >
+                    Empleados
+                </a>
+
+                <a
+                    href="asignaciones.html"
+                    class="nav-link"
+                    id="enlace-asignaciones"
+                    hidden
+                >
+                    Asignaciones
+                </a>
+
+                <a
+                    href="notas-produccion.html"
+                    class="nav-link"
+                    id="enlace-produccion"
+                    hidden
+                >
+                    Producción
+                </a>
+            </nav>
+
+            <button type="button" id="logout-button">
+                Cerrar sesión
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="page-header">
+                <div>
+                    <h2>Clientes</h2>
+                    <p>Administración de clientes de El Algarrobo</p>
+                </div>
+
+                <button
+                    type="button"
+                    id="nuevo-cliente-button"
+                    class="primary-button"
+                    hidden
+                >
+                    Nuevo cliente
+                </button>
+            </header>
+
+            <section class="content-card">
+                <form id="busqueda-clientes-form" class="search-form">
+                    <div class="form-group">
+                        <label for="buscar-nombre">Nombre</label>
+
+                        <input
+                            type="text"
+                            id="buscar-nombre"
+                            placeholder="Ejemplo: Carlos"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-apellido">Apellido</label>
+
+                        <input
+                            type="text"
+                            id="buscar-apellido"
+                            placeholder="Ejemplo: Gómez"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-telefono">Teléfono</label>
+
+                        <input
+                            type="text"
+                            id="buscar-telefono"
+                            placeholder="Ejemplo: 1123456789"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buscar-orden">Orden por apellido</label>
+
+                        <select id="buscar-orden">
+                            <option value="asc">A–Z</option>
+                            <option value="desc">Z–A</option>
+                        </select>
+                    </div>
+
+                    <div class="search-actions">
+                        <button type="submit" class="primary-button">
+                            Buscar
+                        </button>
+
+                        <button
+                            type="button"
+                            id="limpiar-busqueda-button"
+                            class="secondary-button"
+                        >
+                            Mostrar todos
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <p id="clientes-mensaje" class="page-message"></p>
+
+            <section class="content-card table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Domicilio</th>
+                            <th>Teléfono</th>
+                            <th>Tarjeta</th>
+                            <th>N.º de tarjeta</th>
+                            <th>N.º de cuenta</th>
+                            <th>Código bancario</th>
+
+                            <th id="acciones-header" hidden>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="clientes-table-body">
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <section id="cliente-modal" class="modal" hidden>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="cliente-modal-title">Nuevo cliente</h2>
+
+                <button
+                    type="button"
+                    id="cerrar-modal-button"
+                    class="close-button"
+                    aria-label="Cerrar"
+                >
+                    ×
+                </button>
+            </header>
+
+            <form id="cliente-form">
+                <input type="hidden" id="cliente-id">
+
+                <div class="form-group">
+                    <label for="cliente-nombre">Nombre</label>
+
+                    <input
+                        type="text"
+                        id="cliente-nombre"
+                        minlength="2"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-apellido">Apellido</label>
+
+                    <input
+                        type="text"
+                        id="cliente-apellido"
+                        minlength="2"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-domicilio">Domicilio</label>
+
+                    <input
+                        type="text"
+                        id="cliente-domicilio"
+                        minlength="5"
+                        maxlength="200"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-telefono">Teléfono</label>
+
+                    <input
+                        type="tel"
+                        id="cliente-telefono"
+                        minlength="7"
+                        maxlength="20"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-tarjeta">
+                        Tarjeta de crédito
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cliente-tarjeta"
+                        minlength="2"
+                        maxlength="30"
+                        placeholder="Ejemplo: Visa"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-numero-tarjeta">
+                        Número de tarjeta
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cliente-numero-tarjeta"
+                        minlength="12"
+                        maxlength="25"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-cuenta-bancaria">
+                        Número de cuenta bancaria
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cliente-cuenta-bancaria"
+                        minlength="5"
+                        maxlength="34"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente-codigo-banco">
+                        Código del banco
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cliente-codigo-banco"
+                        minlength="1"
+                        maxlength="20"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                    <p id="cliente-form-error" class="mensaje-error"></p>
+
+                    <div class="modal-actions">
+                        <button
+                            type="button"
+                            id="cancelar-cliente-button"
+                            class="secondary-button"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="primary-button">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
